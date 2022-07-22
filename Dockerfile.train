@@ -82,8 +82,7 @@ RUN mkdir -p /code/kenlm/build/
 COPY --from=kenlm-build /code/kenlm/build/bin /code/kenlm/build/bin
 
 # Pre-built native client tools
-RUN LATEST_STABLE_RELEASE=$(curl "https://api.github.com/repos/coqui-ai/STT/releases/latest" | python -c 'import sys; import json; print(json.load(sys.stdin)["tag_name"])') \
-    bash -c 'curl -L https://github.com/coqui-ai/STT/releases/download/${LATEST_STABLE_RELEASE}/native_client.tflite.Linux.tar.xz | tar -xJvf -'
+RUN bash -c 'curl -L https://github.com/coqui-ai/STT/releases/download/v1.3.0/native_client.tflite.Linux.tar.xz | tar -xJvf -'
 
 # Install STT
 # No need for the decoder since we did it earlier
@@ -96,4 +95,5 @@ RUN /tflite-venv/bin/pip install -e .
 
 # Copy rest of the code and test training
 COPY . /code
-RUN ./bin/run-ldc93s1.sh && rm -rf ~/.local/share/stt
+# RUN ./bin/run-ldc93s1.sh
+RUN ./bin/run-antonija.sh
